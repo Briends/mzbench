@@ -67,7 +67,7 @@ post(State, Meta, Endpoint, Payload) ->
 
 record_response(Response) ->
     case Response of
-        {ok, statusCode, _, BodyRef} when statusCode >= 200, statusCode < 300 ->
+        {ok, Code, _, BodyRef} when Code >= 200, Code < 300 ->
             hackney:body(BodyRef),
             mzb_metrics:notify({"http_ok", counter}, 1);
         {ok, statusCode, _, BodyRef} ->
