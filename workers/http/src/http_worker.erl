@@ -53,26 +53,28 @@ get(#state{host = Host, port = Port} = State, _Meta, Endpoint) ->
     record_response(Response),
     {nil, State}.
 
+-spec post(state(), meta(), string(), iodata()) -> {nil, state()}.
+post(State, Meta, Endpoint, Payload) ->
+    post(State, Meta, [], Endpoint, Payload).
+
 -spec post(state(), meta(), headers(), string(), iodata()) -> {nil, state()}.
 post(#state{host = Host, port = Port} = State, _Meta, Headers, Endpoint, Payload) ->
     URL = lists:flatten(io_lib:format("~s:~p~s", [Host, Port, Endpoint])),
+    % BinHeaders = lists:map(fun({Key, Value}) -> {list_to_binary(Key), list_to_binary(Value)} end, Headers),
+    lager:trace_console("ABC"),
     Response = ?TIMED("latency", hackney:request(
         post, list_to_binary(URL), Headers, Payload, [{follow_redirect, true}, {recv_timeout, infinity}])),
     record_response(Response),
     {nil, State}.
-
--spec post(state(), meta(), string(), iodata()) -> {nil, state()}.
-post(State, Meta, Endpoint, Payload) ->
-  post(State, Meta, [], Endpoint, Payload).
 
 record_response(Response) ->
     case Response of
         {ok, Code, _, BodyRef} when Code >= 200, Code < 300 ->
             hackney:body(BodyRef),
             mzb_metrics:notify({"http_ok", counter}, 1);
-        {ok, statusCode, _, BodyRef} ->
+        {ok, Code, _, BodyRef} ->
             hackney:body(BodyRef),
-            lager:warning("hackney:request status: ~p", [statusCode]),
+            lager:warning("hackney:request status: ~p", [Code]),
             mzb_metrics:notify({"http_fail", counter}, 1);
         E ->
             lager:error("hackney:request failed: ~p", [E]),
