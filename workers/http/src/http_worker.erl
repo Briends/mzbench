@@ -47,7 +47,7 @@ set_port(State, _Meta, NewPort) ->
 
 -spec get(state(), meta(), string()) -> {nil, state()}.
 get(#state{host = Host, port = Port} = State, _Meta, Endpoint) ->
-    URL = lists:flatten(io_lib:format("http://~s:~p~s", [Host, Port, Endpoint])),
+    URL = lists:flatten(io_lib:format("~s:~p~s", [Host, Port, Endpoint])),
     Response = ?TIMED("latency", hackney:request(
         get, list_to_binary(URL), [], <<"">>, [])),
     record_response(Response),
