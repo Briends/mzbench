@@ -72,7 +72,7 @@ record_response(Response) ->
             mzb_metrics:notify({"http_ok", counter}, 1);
         {ok, Code, _, BodyRef} ->
             {ok, Body}  = hackney:body(BodyRef),
-            lager:warning("hackney:request status: ~p~s", [Code, Body]),
+            lager:warning("hackney:request status: ~p: ~s", [Code, Body]),
             mzb_metrics:notify({"http_fail", counter}, 1);
         E ->
             lager:error("hackney:request failed: ~p", [E]),
