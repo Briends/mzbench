@@ -52,10 +52,10 @@ get(#state{host = Host, port = Port} = State, _Meta, Endpoint) ->
     {nil, State}.
 
 -spec post(state(), meta(), string(), iodata()) -> {nil, state()}.
-post(#state{host = Host, port = Port} = State, _Meta, Endpoint, Payload) ->
+post(#state{host = Host, port = Port} = State, Meta, Endpoint, Payload) ->
     URL = lists:flatten(io_lib:format("http://~s:~p~s", [Host, Port, Endpoint])),
     Response = ?TIMED("latency", hackney:request(
-        post, list_to_binary(URL), [], Payload, [{follow_redirect, true}])),
+        post, list_to_binary(URL), Meta, Payload, [{follow_redirect, true}])),
     record_response(Response),
     {nil, State}.
 
