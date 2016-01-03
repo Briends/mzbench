@@ -32,7 +32,7 @@ check:
 check-local:
 	cd test && ./main.py --local
 
-PKG_NAME = http_worker
+PKG_NAME = http_worker_headers
 
 .PHONY: pkgroot
 pkgroot: .make/compilation-up-to-date

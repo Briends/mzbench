@@ -1,4 +1,4 @@
--module(http_worker).
+-module(http_worker_headers).
 
 -export([initial_state/0, metrics/0]).
 

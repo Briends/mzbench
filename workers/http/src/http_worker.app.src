@@ -1,5 +1,5 @@
 %% -*- mode: erlang -*-
-{application, http_worker,
+{application, http_worker_headers,
  [
   {description, "MZBench http worker"},
   {vsn, git},
