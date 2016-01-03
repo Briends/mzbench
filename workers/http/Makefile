@@ -1,6 +1,6 @@
 REBAR := $(abspath $(shell which ../../bin/rebar3 || which rebar3))
 
-SOURCES := src/http_worker.erl src/http_worker.app.src
+SOURCES := src/http_worker_headers.erl src/http_worker_headers.app.src
 
 .PHONY: compile
 compile: .make/compilation-up-to-date
