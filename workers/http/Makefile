@@ -1,6 +1,6 @@
 REBAR := $(abspath $(shell which ../../bin/rebar3 || which rebar3))
 
-SOURCES := src/http_worker_headers.erl src/http_worker_headers.app.src
+SOURCES := src/http_worker.erl src/http_worker.app.src
 
 .PHONY: compile
 compile: .make/compilation-up-to-date
@@ -32,7 +32,7 @@ check:
 check-local:
 	cd test && ./main.py --local
 
-PKG_NAME = http_worker_headers
+PKG_NAME = http_worker
 
 .PHONY: pkgroot
 pkgroot: .make/compilation-up-to-date
