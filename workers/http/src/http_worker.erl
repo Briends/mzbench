@@ -61,7 +61,6 @@ post(State, Meta, Endpoint, Payload) ->
 post(#state{host = Host, port = Port} = State, _Meta, Headers, Endpoint, Payload) ->
     URL = lists:flatten(io_lib:format("~s:~p~s", [Host, Port, Endpoint])),
     % BinHeaders = lists:map(fun({Key, Value}) -> {list_to_binary(Key), list_to_binary(Value)} end, Headers),
-    lager:trace_console("ABC"),
     Response = ?TIMED("latency", hackney:request(
         post, list_to_binary(URL), Headers, Payload, [{follow_redirect, true}, {recv_timeout, infinity}])),
     record_response(Response),
@@ -77,6 +76,6 @@ record_response(Response) ->
             lager:warning("hackney:request status: ~p", [Code]),
             mzb_metrics:notify({"http_fail", counter}, 1);
         E ->
-            lager:error("hackney:request failed: ~p", [E]),
+            lager:error("hackney:request failedX: ~p", [E]),
             mzb_metrics:notify({"other_fail", counter}, 1)
     end.
